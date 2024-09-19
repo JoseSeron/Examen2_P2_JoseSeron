@@ -4,6 +4,22 @@
  */
 package examen2_nombreapellido;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author claudiacortes
@@ -65,6 +81,11 @@ public class Principal extends javax.swing.JFrame {
         lbl_ganador.setText("jLabel6");
 
         jButton1.setText("Cargar archivo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Iniciar carrera");
 
@@ -193,6 +214,42 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel4MouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // boton cargar archivos
+        JFileChooser fileChooser = new JFileChooser();
+        
+        fileChooser.showDialog(this, "Seleccionar");
+        
+        File archivo = fileChooser.getSelectedFile();
+        
+        System.out.println(archivo.getName());
+        
+        try {
+            FileReader fr = new FileReader(archivo);
+           
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            ArrayList<String> lineas = (ArrayList<String>) readFromFile(archivo.getPath());
+            System.out.println(lineas.get(0));
+           
+            for (String linea : lineas) {
+                
+                Tortuga nuevaTortuga = new Tortuga(linea);
+            }
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -228,6 +285,8 @@ public class Principal extends javax.swing.JFrame {
         });
     }
 
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_guardarResultados;
     private javax.swing.JButton jButton1;
@@ -248,4 +307,5 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JProgressBar jpb_tortuga4;
     private javax.swing.JLabel lbl_ganador;
     // End of variables declaration//GEN-END:variables
+ArrayList
 }
