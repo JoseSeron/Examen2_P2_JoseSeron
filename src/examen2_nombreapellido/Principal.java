@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -88,6 +89,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jButton2.setText("Iniciar carrera");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -217,38 +223,57 @@ public class Principal extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // boton cargar archivos
         JFileChooser fileChooser = new JFileChooser();
-        
+
         fileChooser.showDialog(this, "Seleccionar");
-        
+
         File archivo = fileChooser.getSelectedFile();
-        
+
         System.out.println(archivo.getName());
-        
-        try {
-            FileReader fr = new FileReader(archivo);
-           
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+
+        lista = leerArchivo(archivo);
+
+        for (String linea : lista) {
+            System.out.println(linea);
+            Tortuga nuevaTortuga = new Tortuga(linea);
+            listaTortugas.add(nuevaTortuga);
         }
-        
-        try {
-            ArrayList<String> lineas = (ArrayList<String>) readFromFile(archivo.getPath());
-            System.out.println(lineas.get(0));
-           
-            for (String linea : lineas) {
-                
-                Tortuga nuevaTortuga = new Tortuga(linea);
-            }
-            
-            
-        } catch (IOException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // iniciar Carrera
+        Thread hilo = hilo(jpb_tortuga1, listaTortugas.get(0));
+        hilo.start();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    public Thread hilo(JProgressBar barra, Tortuga tortuga){
+    
+          Thread hilo = new Thread(() -> {
+              while (barra.getValue()<=100) {
+                  int progreso=1;
+                  barra.setValue(progreso);
+              }
+        });
+
+        return hilo;
+    }
+    
+    // leer el archivo
+    public ArrayList<String> leerArchivo(File archivo) {
+        StringBuilder contenido = new StringBuilder();
+        ArrayList<String> listaLineas = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                listaLineas.add(linea);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return listaLineas;
+    }
 
     /**
      * @param args the command line arguments
@@ -286,7 +311,6 @@ public class Principal extends javax.swing.JFrame {
     }
 
 
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_guardarResultados;
     private javax.swing.JButton jButton1;
@@ -307,5 +331,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JProgressBar jpb_tortuga4;
     private javax.swing.JLabel lbl_ganador;
     // End of variables declaration//GEN-END:variables
-ArrayList
+ArrayList<String> lista = new ArrayList<>();
+    ArrayList<Tortuga> listaTortugas = new ArrayList<>();
 }

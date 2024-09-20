@@ -44,8 +44,8 @@ public class Tortuga {
         this.carrerasGanadas = arreglo2[0].substring(1);
         
         String[] arreglo3 = arreglo2[1].split(">");    //{año de inicio       año de retiro}]
-        this.anioFinal = arreglo3[1].substring(6, 9);
-        this.anioFinal = arreglo3[0].substring(1);
+        this.anioFinal = arreglo3[1].substring(0, 3);
+        this.anioInicio = arreglo3[0].substring(1);
         
         
         
