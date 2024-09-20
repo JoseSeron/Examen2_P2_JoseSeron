@@ -16,6 +16,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -243,28 +245,16 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // iniciar Carrera
-        System.out.println("entro");
-        jpb_tortuga1.setValue(50);
 
-        Thread hilo1 = hilo(jpb_tortuga1, listaTortugas.get(0));
-        hilo1.start();
+        Hilo hilo1 = new Hilo(jpb_tortuga1, Integer.parseInt(listaTortugas.get(0).getVelocidad()));
+
+        ExecutorService executor = Executors.newCachedThreadPool();
+
+        executor.submit(hilo1);
+        executor.shutdown();
 
 
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    public Thread hilo(JProgressBar barra, Tortuga tortuga) {
-        int progreso = 1;
-        Thread hilo = new Thread(() -> {
-            while (barra.getValue() <= 100) {
-
-                barra.setValue(progreso+1);
-
-                Thread.s
-            }
-        });
-
-        return hilo;
-    }
 
     // leer el archivo
     public ArrayList<String> leerArchivo(File archivo) {
