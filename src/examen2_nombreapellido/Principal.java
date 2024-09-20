@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -246,6 +249,8 @@ public class Principal extends javax.swing.JFrame {
         Hilo hilo3 = new Hilo(jpb_tortuga3, Integer.parseInt(listaTortugas.get(2).getVelocidad()));
         Hilo hilo4 = new Hilo(jpb_tortuga4, Integer.parseInt(listaTortugas.get(3).getVelocidad()));
 
+        
+        
         ExecutorService executor = Executors.newCachedThreadPool();
 
         executor.submit(hilo1);
@@ -254,27 +259,37 @@ public class Principal extends javax.swing.JFrame {
         executor.submit(hilo4);
 
         executor.shutdown();
-        
-        if (executor.isTerminated()) {
-             System.out.println(hilo1.getTiempo());
-        System.out.println(hilo2.getTiempo());
-        System.out.println(hilo3.getTiempo());
-        System.out.println(hilo3.getTiempo());
-        
-        long ganador = numeroPequenio(hilo1.getTiempo(), hilo2.getTiempo(), hilo3.getTiempo(), hilo4.getTiempo());
-        if (ganador == hilo1.getTiempo()) {
-            JOptionPane.showMessageDialog(this, "Tortuga 1 ha ganado");
 
-        } else if (ganador == hilo2.getTiempo()) {
-            JOptionPane.showMessageDialog(this, "Tortuga 2 ha ganado");
-        } else if (ganador == hilo3.getTiempo()) {
-            JOptionPane.showMessageDialog(this, "Tortuga 3 ha ganado");
-        } else if (ganador == hilo4.getTiempo()) {
-            JOptionPane.showMessageDialog(this, "Tortuga 4 ha ganado");
-        } 
+        try {
+            if (executor.awaitTermination(1, TimeUnit.HOURS)) { //da un bug donde no se puede ver la carrear hasta que se termina pero almenos retorna correctamente el ganador
+                System.out.println(hilo1.getTiempo());
+                System.out.println(hilo2.getTiempo());
+                System.out.println(hilo3.getTiempo());
+                System.out.println(hilo3.getTiempo());
+
+                long ganador = numeroPequenio(hilo1.getTiempo(), hilo2.getTiempo(), hilo3.getTiempo(), hilo4.getTiempo());
+                if (ganador == hilo1.getTiempo()) {
+                    JOptionPane.showMessageDialog(this, "Tortuga 1 ha ganado");
+                    listaTortugas.get(0).setCarrerasGanadas(listaTortugas.get(0).getCarrerasGanadas() + 1);
+                    
+                } else if (ganador == hilo2.getTiempo()) {
+                    JOptionPane.showMessageDialog(this, "Tortuga 2 ha ganado");
+                    listaTortugas.get(1).setCarrerasGanadas(listaTortugas.get(1).getCarrerasGanadas() + 1);
+
+                } else if (ganador == hilo3.getTiempo()) {
+                    JOptionPane.showMessageDialog(this, "Tortuga 3 ha ganado");
+                    listaTortugas.get(2).setCarrerasGanadas(listaTortugas.get(2).getCarrerasGanadas() + 1);
+
+                } else if (ganador == hilo4.getTiempo()) {
+                    JOptionPane.showMessageDialog(this, "Tortuga 4 ha ganado");
+                    listaTortugas.get(3).setCarrerasGanadas(listaTortugas.get(3).getCarrerasGanadas() + 1);
+
+                }
+            }
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-       
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
