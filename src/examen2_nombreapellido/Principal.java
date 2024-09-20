@@ -247,10 +247,16 @@ public class Principal extends javax.swing.JFrame {
         // iniciar Carrera
 
         Hilo hilo1 = new Hilo(jpb_tortuga1, Integer.parseInt(listaTortugas.get(0).getVelocidad()));
+        Hilo hilo2 = new Hilo(jpb_tortuga2, Integer.parseInt(listaTortugas.get(1).getVelocidad()));
+        Hilo hilo3 = new Hilo(jpb_tortuga3, Integer.parseInt(listaTortugas.get(2).getVelocidad()));
+        Hilo hilo4 = new Hilo(jpb_tortuga4, Integer.parseInt(listaTortugas.get(3).getVelocidad()));
 
         ExecutorService executor = Executors.newCachedThreadPool();
 
         executor.submit(hilo1);
+        executor.submit(hilo2);
+        executor.submit(hilo3);
+        executor.submit(hilo4);
         executor.shutdown();
 
 
@@ -327,6 +333,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JProgressBar jpb_tortuga4;
     private javax.swing.JLabel lbl_ganador;
     // End of variables declaration//GEN-END:variables
-ArrayList<String> lista = new ArrayList<>();
+    ArrayList<String> lista = new ArrayList<>();
     ArrayList<Tortuga> listaTortugas = new ArrayList<>();
 }
