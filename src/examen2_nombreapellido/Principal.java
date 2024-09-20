@@ -243,25 +243,31 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // iniciar Carrera
-        Thread hilo = hilo(jpb_tortuga1, listaTortugas.get(0));
-        hilo.start();
+        System.out.println("entro");
+        jpb_tortuga1.setValue(50);
+
+        Thread hilo1 = hilo(jpb_tortuga1, listaTortugas.get(0));
+        hilo1.start();
+
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    public Thread hilo(JProgressBar barra, Tortuga tortuga){
-    
-          Thread hilo = new Thread(() -> {
-              while (barra.getValue()<=100) {
-                  int progreso=1;
-                  barra.setValue(progreso);
-              }
+    public Thread hilo(JProgressBar barra, Tortuga tortuga) {
+        int progreso = 1;
+        Thread hilo = new Thread(() -> {
+            while (barra.getValue() <= 100) {
+
+                barra.setValue(progreso+1);
+
+                Thread.s
+            }
         });
 
         return hilo;
     }
-    
+
     // leer el archivo
     public ArrayList<String> leerArchivo(File archivo) {
-        StringBuilder contenido = new StringBuilder();
         ArrayList<String> listaLineas = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
