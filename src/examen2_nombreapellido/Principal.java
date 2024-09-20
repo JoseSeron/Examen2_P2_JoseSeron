@@ -5,23 +5,14 @@
 package examen2_nombreapellido;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.JProgressBar;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -246,6 +237,10 @@ public class Principal extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // iniciar Carrera
 
+        jpb_tortuga1.setValue(0);
+        jpb_tortuga2.setValue(0);
+        jpb_tortuga3.setValue(0);
+        jpb_tortuga4.setValue(0);
         Hilo hilo1 = new Hilo(jpb_tortuga1, Integer.parseInt(listaTortugas.get(0).getVelocidad()));
         Hilo hilo2 = new Hilo(jpb_tortuga2, Integer.parseInt(listaTortugas.get(1).getVelocidad()));
         Hilo hilo3 = new Hilo(jpb_tortuga3, Integer.parseInt(listaTortugas.get(2).getVelocidad()));
@@ -257,10 +252,47 @@ public class Principal extends javax.swing.JFrame {
         executor.submit(hilo2);
         executor.submit(hilo3);
         executor.submit(hilo4);
-        executor.shutdown();
 
+        executor.shutdown();
+        
+        if (executor.isTerminated()) {
+             System.out.println(hilo1.getTiempo());
+        System.out.println(hilo2.getTiempo());
+        System.out.println(hilo3.getTiempo());
+        System.out.println(hilo3.getTiempo());
+        
+        long ganador = numeroPequenio(hilo1.getTiempo(), hilo2.getTiempo(), hilo3.getTiempo(), hilo4.getTiempo());
+        if (ganador == hilo1.getTiempo()) {
+            JOptionPane.showMessageDialog(this, "Tortuga 1 ha ganado");
+
+        } else if (ganador == hilo2.getTiempo()) {
+            JOptionPane.showMessageDialog(this, "Tortuga 2 ha ganado");
+        } else if (ganador == hilo3.getTiempo()) {
+            JOptionPane.showMessageDialog(this, "Tortuga 3 ha ganado");
+        } else if (ganador == hilo4.getTiempo()) {
+            JOptionPane.showMessageDialog(this, "Tortuga 4 ha ganado");
+        } 
+        }
+
+       
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    public static long numeroPequenio(long a, long b, long c, long d) {
+        long ganador = a;
+
+        if (b < ganador) {
+            ganador = b;
+        }
+        if (c < ganador) {
+            ganador = c;
+        }
+        if (d < ganador) {
+            ganador = d;
+        }
+
+        return ganador;
+    }
 
     // leer el archivo
     public ArrayList<String> leerArchivo(File archivo) {
@@ -335,4 +367,5 @@ public class Principal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     ArrayList<String> lista = new ArrayList<>();
     ArrayList<Tortuga> listaTortugas = new ArrayList<>();
+    public ArrayList<String> ganador = new ArrayList<>();
 }
